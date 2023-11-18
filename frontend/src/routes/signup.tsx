@@ -26,6 +26,7 @@ export default function Signup() {
         </div>
         <form className="flex flex-col space-y-4">
           <div className="flex flex-col space-y-3 p-3">
+          <Input type="text" placeholder="User Name" className="w-96" />
             <Input type="email" placeholder="Email" className="w-96" />
             <Input type="password" placeholder="Password" className="w-96" />
             <Input
