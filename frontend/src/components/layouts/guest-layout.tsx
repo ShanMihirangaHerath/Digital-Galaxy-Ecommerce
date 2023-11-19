@@ -17,7 +17,7 @@ export default function GuestLayout() {
                 ></video>
             </div>
             <div className="px-8">
-                <div className="left left-5/8 absolute top-4 md:top-8">
+                <div className="fixed right-24 top-4 md:right-28 md:top-8">
                     <ModeToggle/>
                 </div>
                 <Outlet />
