@@ -8,6 +8,9 @@ export const router = createBrowserRouter([
     {
         path: "/",
         element: <GuestLayout/>,
-        children: [{path: "/signup", element: <Signup/>}],
+        children: [
+            { path: "/signup", element: <Signup/> },
+
+        ],
     },
 ]);
