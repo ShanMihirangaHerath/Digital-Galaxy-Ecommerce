@@ -12,31 +12,29 @@ import { useContext } from "react";
 import { AuthContext } from "@/context/auth-provider";
 import { CurrentUser } from "@/types/auth";
 import { AuthError } from "@/types/auth";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
-export default function Signup() {
+export default function Signin() {
     const emailRef = useRef<HTMLInputElement>(null);
-    const firstnameRef = useRef<HTMLInputElement>(null);
-    const lastnameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
-    const passwordconfirmationRef = useRef<HTMLInputElement>(null);
     const [errors, setErros] = useState<AuthError | null>();
     const [loading, setLoading] = useState<boolean>(false);
     const { setToken, setUser } = useContext(AuthContext);
+    const [rememberMe, setRememberMe] = useState(false);
 
     const handelSubmit = (e: React.SyntheticEvent) => {
         setLoading(true);
         e.preventDefault();
 
         const payload = {
-            first_name: firstnameRef.current?.value,
-            last_name: lastnameRef.current?.value,
             email: emailRef.current?.value,
             password: passwordRef.current?.value,
-            password_confirmation: passwordconfirmationRef.current?.value,
+            remember: rememberMe,
         };
 
         axiosClient
-            .post("/signup", payload)
+            .post("/login", payload)
             .then(({ data }) => {
                 const { user, token } = data;
                 setErros(null);
@@ -46,8 +44,8 @@ export default function Signup() {
             .catch((err) => {
                 const res = err.response as AxiosResponse;
                 if (res && res.status == 422) {
-                    setErros(res.data.errors);
-                    console.log(res.data.errors);
+                    setErros(res.data);
+                    console.log(res.data);
                 }
             })
             .finally(function () {
@@ -58,21 +56,21 @@ export default function Signup() {
     return (
         <>
             <Link
-                to="/login"
+                to="/Signup"
                 className={cn(
                     buttonVariants({ variant: "ghost" }),
                     "absolute right-4 top-4 md:right-8 md:top-8"
                 )}
             >
-                Login
+                Sign Up
             </Link>
             <div className="flex w-full flex-col items-center justify-center space-y-8">
                 <div className="flex flex-col space-y-2 text-center">
                     <h1 className="text-2xl font-semibold tracking-tight">
-                        Create An Account
+                        Sign In To Digital-Galaxy
                     </h1>
                     <p className="text-sm text-muted-foreground">
-                        Enter Your Email Below To Create Your Account
+                        Enter Your Email Below To Sign In
                     </p>
                 </div>
                 <form
@@ -113,43 +111,35 @@ export default function Signup() {
                             </Alert>
                         )}
                     </div>
-                    <div className="flex flex-col space-y-3 p-3">
+                    <div className="flex flex-col gap-2 p-3">
                         <Input
                             type="email"
                             placeholder="Email"
                             className="w-96"
                             ref={emailRef}
                         />
-                        <div className="flex gap-1">
-                            <Input
-                                type="text"
-                                placeholder="First Name"
-                                className="w-48"
-                                ref={firstnameRef}
-                            />
-                            <Input
-                                type="text"
-                                placeholder="Last Name"
-                                className="w-48"
-                                ref={lastnameRef}
-                            />
-                        </div>
-
                         <Input
                             type="password"
                             placeholder="Password"
                             className="w-96"
                             ref={passwordRef}
                         />
-                        <Input
-                            type="password"
-                            placeholder="Confirm Your Password"
-                            className="w-96"
-                            ref={passwordconfirmationRef}
-                        />
+                        <div className="mt-3 flex flex-row items-center justify-between gap-1">
+                            <div className="text-xs">Forgot Password?</div>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox
+                                    id="terms2"
+                                    checked={rememberMe}
+                                    onClick={() => setRememberMe(!rememberMe)}
+                                />
+                                <Label htmlFor="terms2">
+                                    Remember me {rememberMe}
+                                </Label>
+                            </div>
+                        </div>
                     </div>
 
-                    <LoadingButton isLoading={loading}>Sign Up</LoadingButton>
+                    <LoadingButton isLoading={loading}>Sign In</LoadingButton>
                 </form>
                 <p className="px-8 text-center text-sm text-muted-foreground">
                     By Clicking Continue, you agree to our &nbsp;

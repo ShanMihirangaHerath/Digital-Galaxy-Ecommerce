@@ -3,6 +3,7 @@ import GuestLayout from "@/components/layouts/guest-layout";
 import { createBrowserRouter } from "react-router-dom";
 
 import Signup from "./signup";
+import Signin from "./signin";
 
 export const router = createBrowserRouter([
     {
@@ -10,7 +11,7 @@ export const router = createBrowserRouter([
         element: <GuestLayout/>,
         children: [
             { path: "/signup", element: <Signup/> },
-
+            { path: "/login", element: <Signin/> },
         ],
     },
 ]);
